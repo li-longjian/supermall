@@ -37,28 +37,38 @@
           probeType:this.probetype,
           observeDOM:true,
           pullUpLoad:this.pullUpLoad
-      }),
-        //2.监听滚动位置
-        this.scroll.on('scroll',(position) => {
-          // console.log(position);
-          //自定义事件，将scoll的位置传到home
-          this.$emit('scroll',position)
-        })
-      //3.监听上拉加载
-      this.scroll.on('pullingUp',() =>{
-        // console.log('加载更多');
-        this.$emit('pullingup')
       })
+        //2.监听滚动位置
+        if(this.probetype == 2 || this.probetype == 3){
+          this.scroll.on('scroll',(position) => {
+            // console.log(position);
+            //自定义事件，将scoll的位置传到home
+            this.$emit('scroll',position)
+          })
+        }
+
+      //3.监听上拉加载
+      if(this.pullUpLoad){
+        this.scroll.on('pullingUp',() =>{
+          // console.log('加载更多');
+          this.$emit('pullingup')
+        })
+      }
+
 
     },
     methods:{
       //回到顶部
       scrollTo(x,y,time=300){
-        this.scroll.scrollTo(x,y,time)
+       this.scroll && this.scroll.scrollTo(x,y,time)
+      },
+      //刷新
+      refresh(){
+       this.scroll && this.scroll.refresh();
       },
       //加载更多
       finishPullUp(){
-        this.scroll.finishPullUp()
+        this.scroll && this.scroll.finishPullUp()
       }
     }
   }

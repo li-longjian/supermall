@@ -7,7 +7,8 @@ import Swiper2, {Navigation,Pagination,EffectFade,Autoplay} from "swiper";
 Swiper2.use([Navigation,Pagination,EffectFade,Autoplay])
 Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false
-
+//事件总线$bus
+Vue.prototype.$bus = new Vue()
 new Vue({
   router,
   render: h => h(App),

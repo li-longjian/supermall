@@ -2,10 +2,10 @@
   <div class="wrapper">
     <swiper  :options="swiperOptions" >
 
-      <swiper-slide v-for="item in banners" :key="item.title">
-        <a :href="item.link">
-          <img :src="item.image" alt="" @load="imageLoad">
-        </a>
+      <swiper-slide v-for="item in topImages" :key="item">
+
+          <img :src="item" alt="" >
+
       </swiper-slide>
 
       <div class="swiper-pagination" slot="pagination">
@@ -17,14 +17,14 @@
 
 <script>
   export default {
-    name: "HomeSwiper",
+    name: "detailSwiper",
     props:{
-        banners:{
-          type:Array,
-          default(){
-            return []
-          }
+      topImages:{
+        type:Array,
+        default(){
+          return []
         }
+      }
     },
     data() {
       return {
@@ -39,27 +39,27 @@
         isLoad:false
       }
     },
-    methods:{
-      imageLoad(){
-        if(!this.isLoad){
-          this.$emit('swiper-img-load');
-          this.isLoad = true;
-        }
-      }
-    }
   }
 </script>
 
 <style scoped>
-.wrapper{
-  overflow: hidden;
-  width: 100%;
-  /*flex-shrink: 0;*/
-}
+  .wrapper{
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    top:40px;
+    height:260px;
+    /*flex-shrink: 0;*/
+  }
   .wrapper img{
     width:100%;
+    height:100%;
+
   }
-.swiper-pagination{
-  --swiper-pagination-color:#fff;
-}
+  .swiper-pagination{
+    --swiper-pagination-color:#fff;
+  }
+  .swiper-pagination-bullets{
+    top:230px;
+  }
 </style>
