@@ -1,5 +1,5 @@
 <template>
-  <div class="base_info">
+  <div class="base_info" v-if="goods">
 
     <div class="title">
     <h3>{{goods.title}}</h3> </div>
@@ -13,12 +13,12 @@
         {{goods.disCount}}
       </span>
     </div>
-    <div class="info_others">
-      <span>{{goods.columns[0]}}</span>
+    <div class="info_others" v-if="goods.column">
+      <span >{{goods.columns[0]}}</span>
       <span>{{goods.columns[1]}}</span>
-      <span>{{goods.services[goods.services.length-1.].name}}</span>
+      <span>{{goods.services[goods.services.length-1].name}}</span>
     </div>
-    <div class="shop_serves">
+    <div class="shop_serves" v-if="goods.services">
       <span v-for="index  in goods.services.length-1" :key="index" >
         <img :src="goods.services[index-1].icon" alt="">
         <span>{{goods.services[index-1].name}}</span>

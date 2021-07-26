@@ -1,10 +1,10 @@
 <template>
-  <div class="Images" v-if="Object.keys(detailInfo).length !== 0">
-    <div class="desc">{{detailInfo.desc}}</div>
+  <div class="Images" v-if="Object.keys(detail_info).length !== 0">
+    <div class="desc">{{detail_info.desc}}</div>
     <div>
-      <div>{{detailInfo.detailImage[0].key}}</div>
+      <div>{{detail_info.detailImage[0].key}}</div>
       <div class="img_list">
-        <img v-for="(item,index) in detailInfo.detailImage[0].list"
+        <img v-for="(item,index) in detail_info.detailImage[0].list"
              :src="item" alt=""
              @load="imgLoad"
              :key="index"
@@ -18,7 +18,7 @@
   export default {
     name: "detailImg",
     props:{
-      detailInfo:{
+      detail_info:{
         type:Object,
         default(){
           return {}
@@ -33,8 +33,8 @@
     methods:{
       imgLoad(){
         //为了避免频繁刷新
-        if(++this.currentLength === detailInfo.detailImage[0].list.length)
-        this.$emit('imgLoad')
+        // if(++this.currentLength === detailInfo.detailImage[0].list.length)
+          this.$emit('imgLoad')
       }
     }
 

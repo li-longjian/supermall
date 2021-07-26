@@ -63,12 +63,15 @@
     width:100px;
     height:35px;
     line-height: 35px;
-    background-color: #8f9096;
-    border-radius: 15px;
+    background-color: rgba(100,100,100,.5);
+    border-radius: 20px;
     text-align: center;
-    position: absolute;
+    /*position: absolute;*/
+    position: relative;
     left:35% ;
+    top:20px;
     letter-spacing: 3px;
+
     /*padding-bottom: 25px;*/
   }
   .shopUrl a{
@@ -89,17 +92,18 @@
   top:15px;
   margin-left:20px;
 }
-.logo{
-  width: 36px;
-  height:36px;
-  border-radius: 50%;
-  border:1px solid #a6a6a6;
-  text-align: center;
+/*.logo{*/
+/*  width: 36px;*/
+/*  height:36px;*/
 
-}
+/*  !*border:1px solid #a6a6a6;*!*/
+/*  text-align: center;*/
+
+/*}*/
   .shop .logo img{
-    width:26px;
-    height:26px;
+    width:32px;
+    height:32px;
+    border-radius: 50%;
   }
   .describe{
     padding-top:20px;

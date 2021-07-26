@@ -1,13 +1,23 @@
 <template>
   <div id="detail">
-    <detail-nav class="detail_nav"></detail-nav>
-      <Scroll class="content" ref="scroll">
+    <detail-nav class="detail_nav"
+                @title_click="title_click"
+                ref="nav"
+    ></detail-nav>
+      <Scroll class="content" ref="scroll"
+              :probetype="3"
+              @scroll="contentSCroll"
+      >
         <detail-swiper :topImages="topImages"></detail-swiper>
         <detailnfo :goods="goods"></detailnfo>
         <shop-info :shop="shop"></shop-info>
-        <detail-img :detail-info="detailInfo" @imgLoad="imgLoad"></detail-img>
-        <goods-params :itemParams="itemParams"></goods-params>
+        <detail-img :detail_info="detailInfo" @imgLoad="imgLoad"></detail-img>
+        <goods-params :itemParams="itemParams" ref="params"></goods-params>
+        <detail-comment :comment="comment" ref="comment"></detail-comment>
+        <div class="recommend" >今日推荐</div>
+        <goods-list :goods="recommend" ref="recommends"></goods-list>
       </Scroll>
+    <bottom-tab></bottom-tab>
     </div>
 
 
@@ -21,7 +31,11 @@
   import Scroll from "../../components/common/scroll/Scroll";
   import detailImg from "./childComp/detailImg";
   import GoodsParams from "./childComp/GoodsParams";
-  import {getDetail,Goods,Shop,GoodsParam} from "../../network/detail";
+  import detailComment from "./childComp/detailComment";
+  import {getDetail,getRecommend,Goods,Shop,GoodsParam} from "../../network/detail";
+  import GoodsList from "../../components/contents/goods/GoodsList";
+  import {debounce} from '../../common/utils';
+  import bottomTab from './childComp/bottomTab'
 
   export default {
     name: "Details",
@@ -32,29 +46,59 @@
         goods: {},
         shop:{},
         detailInfo:{},
-        itemParams:{}
+        itemParams:{},
+        comment:{},
+        recommend:[],
+        themeTopYs:[],
+        getThemeTopY:null,
+        currentIndex:0,
       }
     },
     components:{
+
       detailNav,
       detailSwiper,
       detailnfo,
       shopInfo,
       Scroll,
       detailImg,
-      GoodsParams
+      GoodsParams,
+      detailComment,
+      GoodsList,
+      bottomTab
 
     },
     methods:{
       imgLoad(){
+        //监听所有图片加载完成，做一次刷新
         this.$refs.scroll.refresh();
+
+        //但是刷新频繁，可以做一次防抖函数;在create里对getThemeTopY函数赋值
+
+        this.getThemeTopY();
+      },
+      title_click(index){
+        // console.log(index);
+        this.$refs.scroll.scrollTo(0,-this.themeTopYs[index],200);
+      },
+      //监听滚动位置
+      contentSCroll(position){
+        let positionY = -position.y;
+        const length = this.themeTopYs.length;
+        for(let i =0;i<length;i++){
+          if(this.currentIndex !== i && ( (i<length-1 && positionY>=this.themeTopYs[i]&&
+            positionY<this.themeTopYs[i+1])
+            || (i===length-1 && positionY >=this.themeTopYs[i]))) {
+                this.currentIndex = i;
+                this.$refs.nav.currentIndex = this.currentIndex;
+          }
+        }
       }
     },
-
     created(){
       this.iid = this.$route.params.iid;
       getDetail(this.iid).then(res =>{
-        console.log(res);
+        // console.log(res);
         const data = res.result
         //1.获取详情轮播图
         this.topImages = data.itemInfo.topImages;
@@ -66,7 +110,34 @@
         this.detailInfo = data.detailInfo;
         //5.获取商品参数
         this.itemParams = new GoodsParam(data.itemParams.info,data.itemParams.rule)
+        //6.获取评论信息
+        if(data.rate.cRate !== 0 ){
+          this.comment =data.rate.list[0];
+        }
+      });
+      getRecommend().then(res =>{
+        // console.log(res);
+        this.recommend = res.data.list;
+      });
+      //给getThemeTopY赋值
+      this.getThemeTopY = debounce(()=>{
+        this.$nextTick(() =>{
+          this.themeTopYs = [];
+          this.themeTopYs.push(0);
+          this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+          this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+          this.themeTopYs.push(this.$refs.recommends.$el.offsetTop);
+          // console.log(this.themeTopYs);
+        })
       })
+    },
+    mounted() {
+
+
+    },
+    updated() {
+      //
+
 
     }
   }
@@ -85,7 +156,10 @@
     background-color: #ffffff;
   }
 .content{
-  height: calc(100vh - 44px);
+  height: calc(100vh - 44px - 49px);
   overflow: hidden;
 }
+  .recommend{
+    padding:15px;
+  }
 </style>

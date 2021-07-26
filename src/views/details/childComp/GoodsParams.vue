@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <table class="item_sizes">
+  <div v-if="itemParams">
+    <table class="item_sizes" v-if="itemParams.sizes">
       <tr v-for="item in itemParams.sizes[0]">
         <td v-for="it in item">{{it}}</td>
       </tr>
@@ -23,6 +23,11 @@
         default(){
           return {}
         }
+
+      }
+    },
+    data(){
+      return {
 
       }
     }

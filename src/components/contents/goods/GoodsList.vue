@@ -20,6 +20,7 @@
 
       }
     },
+
     components: {GoodsListItem}
   }
 </script>

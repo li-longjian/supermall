@@ -37,6 +37,7 @@
     methods:{
       titleClick(index){
         this.currentIndex = index;
+        this.$emit('title_click',index)
       },
       backClick(){
         // this.$router.push('/home')
