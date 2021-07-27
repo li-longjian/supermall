@@ -17,7 +17,7 @@
         <div class="recommend" >今日推荐</div>
         <goods-list :goods="recommend" ref="recommends"></goods-list>
       </Scroll>
-    <bottom-tab></bottom-tab>
+    <bottom-tab @add_to_cart="add_to_cart"></bottom-tab>
     </div>
 
 
@@ -93,6 +93,18 @@
                 this.$refs.nav.currentIndex = this.currentIndex;
           }
         }
+      },
+      //监听加入购物车
+      add_to_cart(){
+        // console.log('加入购物车+1');
+        const production = {};
+        production.title = this.goods.title;
+        production.img = this.topImages[0];
+        production.price = this.goods.realPrice;
+        production.iid = this.iid;
+        production.desc = this.goods.desc;
+        //提交到actions里面
+        this.$store.dispatch('addCart',production);
       }
     },
     created(){
