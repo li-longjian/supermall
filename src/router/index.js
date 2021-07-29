@@ -5,7 +5,7 @@ import VueRouter from 'vue-router'
 const Home = () => import('views/home/Home')
 const Category = () => import('views/category/Category')
 const Cart = () => import('views/cart/Cart')
-const Me = () => import('views/me/Me')
+const profile = () => import('views/profile/profile')
 const Details = () => import('views/details/Details')
 Vue.use(VueRouter)
 const routes = [
@@ -27,8 +27,8 @@ const routes = [
     component:Cart
   },
   {
-    path: '/me',
-    component:Me
+    path: '/profile',
+    component:profile
   },
 
   {

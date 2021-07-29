@@ -18,6 +18,7 @@
         <goods-list :goods="recommend" ref="recommends"></goods-list>
       </Scroll>
     <bottom-tab @add_to_cart="add_to_cart"></bottom-tab>
+    <toast></toast>
     </div>
 
 
@@ -35,7 +36,8 @@
   import {getDetail,getRecommend,Goods,Shop,GoodsParam} from "../../network/detail";
   import GoodsList from "../../components/contents/goods/GoodsList";
   import {debounce} from '../../common/utils';
-  import bottomTab from './childComp/bottomTab'
+  import bottomTab from './childComp/bottomTab';
+  import Toast from '../../components/common/toast/Toast'
 
   export default {
     name: "Details",
@@ -65,7 +67,8 @@
       GoodsParams,
       detailComment,
       GoodsList,
-      bottomTab
+      bottomTab,
+      Toast
 
     },
     methods:{
@@ -104,7 +107,12 @@
         production.iid = this.iid;
         production.desc = this.goods.desc;
         //提交到actions里面
-        this.$store.dispatch('addCart',production);
+        this.$store.dispatch('addCart',production).then(  res =>{
+          console.log(res);
+          console.log(this.$toast);
+          this.$toast.methods.show(res,2000)
+        });
+
       }
     },
     created(){
