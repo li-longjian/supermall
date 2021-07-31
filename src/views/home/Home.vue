@@ -112,8 +112,9 @@
         },
         activated() {
           //再次进来home时回到离开时的位置
-          this.$refs.scroll.scrollTo(0,this.saveY,0);
           this.$refs.scroll.refresh();
+          this.$refs.scroll.scrollTo(0,this.saveY,0);
+
         },
         deactivated() {
           //离开时保存home的位置

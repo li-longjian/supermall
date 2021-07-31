@@ -32,7 +32,7 @@
       },
       checked_all(){
         //当购物车为空时，全选按钮为空白
-        if(!this.$store.state.cartList.length === 0)  return false;
+        if(this.$store.state.cartList.length === 0)  return false;
         //find:查找数组中是否有不选中的，如果find有不选中的find返回true，但是checked_all需要取反
         return !this.$store.state.cartList.find(item => !item.checked)
       }
