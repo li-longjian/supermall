@@ -17,3 +17,6 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+![image](https://github.com/li-longjian/supermall/blob/main/home_01.png)
